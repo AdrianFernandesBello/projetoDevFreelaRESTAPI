@@ -1,7 +1,11 @@
-﻿using DevFreela.Application.Models;
+﻿using DevFreela.Application.Command.InsertUser;
+using DevFreela.Application.Command.InsertUserSkill;
+using DevFreela.Application.Models;
+using DevFreela.Application.Queries.GetByIdUser;
 using DevFreela.Application.Services;
 using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,35 +15,39 @@ namespace DevFreela.API.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly IUserService _service;
         private readonly DevFreelaDbContext _context;
-        public UsersController(DevFreelaDbContext context, UserService service)
+        public UsersController(DevFreelaDbContext context, UserService service, IMediator mediator)
         {
+            _mediator = mediator;
             _service = service;
             _context = context;
         }
 
+        //GET api/user/1
         [HttpGet("{id}")]
-        public IActionResult GetById(int id, UserViewModel model)
+        public async Task<IActionResult> GetById(int id, GetByIdUserQuery command)
         {
-            var result = _service.GetById(id);
+            var result = _mediator.Send(command);
 
-            return Ok(model);
+            return Ok(command);
         }
 
         // POST api/users
         [HttpPost]
-        public IActionResult Post(CreateUserInputModel model)
+        public async Task<IActionResult> Post(InsertUserCommand command)
         {
-            var result = _service.Post(model);
+            var result = await _mediator.Send(command);
 
             return NoContent();
         }
 
+        //POST api/user/1/skill
         [HttpPost("{id}/skills")]
-        public IActionResult PostSkills(int id, UserSkillsInputModel model)
+        public async Task<IActionResult> PostSkills(int id, InsertUserSkillCommand command)
         {
-            var result = _service.PostSkill(id, model);
+            var result = _mediator.Send(command);
 
             return NoContent();
         }
