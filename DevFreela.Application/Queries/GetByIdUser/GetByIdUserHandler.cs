@@ -1,4 +1,5 @@
 ﻿using DevFreela.Application.Models;
+using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,26 +8,20 @@ namespace DevFreela.Application.Queries.GetByIdUser
 {
     public class GetByIdUserHandler : IRequestHandler<GetByIdUserQuery, ResultViewModel>
     {
-        private readonly DevFreelaDbContext _context;
-        public GetByIdUserHandler(DevFreelaDbContext context)
+        private readonly IProjectRepository _repository;
+        public GetByIdUserHandler(IProjectRepository repository)
         {
-
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<ResultViewModel> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users
-                .Include(u => u.Skills)
-                    .ThenInclude(u => u.Skill)
-                .SingleOrDefaultAsync(u => u.Id == request.Id);
+            var user = await _repository.GetById(request.Id);
 
             if (user is null)
             {
                 return ResultViewModel<UserViewModel>.Error("Usuario inexistente");
             }
-
-            UserViewModel.FromEntity(user);
 
             return (ResultViewModel<UserViewModel>)ResultViewModel<UserViewModel>.Sucess();
         }

@@ -1,7 +1,4 @@
 ﻿using DevFreela.Application.Command.InsertSkill;
-using DevFreela.Application.Models;
-using DevFreela.Application.Services;
-using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +9,9 @@ namespace DevFreela.API.Controllers
     public class SkillsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ISkillsService _service;
-        private readonly DevFreelaDbContext _context;
-        public SkillsController(DevFreelaDbContext context, ISkillsService service, IMediator mediator)
+        public SkillsController(IMediator mediator)
         {
             _mediator = mediator;
-            _service = service;
-            _context = context;
         }
 
         // GET api/skills

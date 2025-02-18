@@ -23,5 +23,10 @@ namespace DevFreela.Application.Models
 
             return new UserViewModel(user.FullName, user.Email, user.BirthDate, skills);
         }
+
+        internal static void FromEntity(List<Skill> skills)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

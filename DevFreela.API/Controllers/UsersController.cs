@@ -1,13 +1,8 @@
 ﻿using DevFreela.Application.Command.InsertUser;
 using DevFreela.Application.Command.InsertUserSkill;
-using DevFreela.Application.Models;
 using DevFreela.Application.Queries.GetByIdUser;
-using DevFreela.Application.Services;
-using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.API.Controllers
 {
@@ -16,13 +11,9 @@ namespace DevFreela.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IUserService _service;
-        private readonly DevFreelaDbContext _context;
-        public UsersController(DevFreelaDbContext context, UserService service, IMediator mediator)
+        public UsersController(IMediator mediator)
         {
             _mediator = mediator;
-            _service = service;
-            _context = context;
         }
 
         //GET api/user/1
@@ -53,9 +44,9 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/profile-picture")]
-        public IActionResult PostProfilePicture(int id, IFormFile file)
+        public async Task<IActionResult> PostProfilePictureAsync(int id, IFormFile file)
         {
-            var result = _service.PostProfilePicture(id, file);
+            var result = await _mediator.Send(id);
 
             // Processar a imagem
 
