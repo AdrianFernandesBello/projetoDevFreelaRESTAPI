@@ -13,5 +13,7 @@ namespace DevFreela.Core.Repositories
         Task<int> Add(User user);
         Task PostSkill(User user);
         Task<bool> Exists(int id);
+        Task<User> GetUserByEmailAndPassworHashAsync(string email, string passwordHash);
+
     }
 }

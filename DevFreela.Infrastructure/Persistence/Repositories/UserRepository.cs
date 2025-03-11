@@ -43,6 +43,12 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             return user;
         }
 
+        public async Task<User> GetUserByEmailAndPassworHashAsync(string email, string passwordHash)
+        {
+            return await _context.Users
+                .SingleOrDefaultAsync(x => x.Email == email && x.Password == passwordHash);
+        }
+
         public Task PostSkill(User user)
         {
             throw new NotImplementedException();
