@@ -1,4 +1,5 @@
-﻿using DevFreela.Core.Entities;
+﻿using DevFreela.Application.Command.UpdateProject;
+using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 
 namespace DevFreela.UnitTest.Core
@@ -32,6 +33,7 @@ namespace DevFreela.UnitTest.Core
         {
             // Arrange Instanciando um novo project
             var project = new Project("Title proj", "Description", 1, 2, 10000);
+            project.Start();
 
             //Act + Assert
             Action? start = project.Start;
@@ -41,12 +43,12 @@ namespace DevFreela.UnitTest.Core
 
         }
 
-        //implemnetar testes de Complete(OK), SetIsPayment(Falta), Update(Falta)
-
+        [Fact]
         public void ProjectInProgress_Complete_Sucess()
         {
             // Arrange Instanciando um novo project
             var project = new Project("Title proj", "Description", 1, 2, 10000);
+            project.Start();
 
             //Act (Ação)
             project.Complete();
@@ -54,6 +56,29 @@ namespace DevFreela.UnitTest.Core
             //Assert 
             Assert.Equal(ProjectStatusEnum.Completed, project.Status);
             Assert.True(project.Status == ProjectStatusEnum.Completed);
+        }
+
+        [Fact]
+        public void ProjectInProgress_SetIsPaymentPending_Sucess()
+        {
+            var project = new Project("Title proj", "Description", 1, 2, 10000);
+            project.Start();
+
+            project.SetPaymentPending();
+
+            Assert.Equal(ProjectStatusEnum.PaymentPending, project.Status);
+        }
+
+        [Fact]
+        public void RequestProjectUpdate_Update_Sucess()
+        {
+            var project = new Project("Title proj", "Description", 1, 2, 10000);
+
+            project.Update("Title teste", "Description teste", 20000);
+
+            Assert.Equal("Title teste", project.Title);
+            Assert.Equal("Description teste", project.Description);
+            Assert.Equal(20000, project.TotalCost);
         }
     }
 }
