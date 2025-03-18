@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Command.DeleteProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.UnitTest.Fakes;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace DevFreela.UnitTest.Application
         public async Task ProjectExists_Delete_Sucess_NSubstitute()
         {
             //Arrange
-            var project = new Project("Project A", "Description", 1, 2, 10000);
+            //var project = new Project("Project A", "Description", 1, 2, 10000);
+
+            var project = FakeDataHelper.CreateFakeProject();
 
             var repository = Substitute.For<IProjectRepository>();
             repository.GetById(1).Returns(Task.FromResult((Project?)project));

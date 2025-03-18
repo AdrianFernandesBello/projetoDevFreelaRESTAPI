@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Command.InsertProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.UnitTest.Fakes;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -20,14 +21,7 @@ namespace DevFreela.UnitTest.Application
             var repository = Substitute.For<IProjectRepository>();
             repository.Add(Arg.Any<Project>()).Returns(Task.FromResult(ID));
 
-            var command = new InsertProjectCommand
-            {
-                Title = "Project A",
-                Description = "Description",
-                TotalCost = 10000,
-                IdClient = 1,
-                IdFreelancer = 1,
-            };
+            var command = FakeDataHelper.CreateFakeInsertProjectCommand();
 
             var handler = new InsertProjectHandler(repository);
 

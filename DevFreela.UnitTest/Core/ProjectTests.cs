@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Command.UpdateProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
+using DevFreela.UnitTest.Fakes;
 
 namespace DevFreela.UnitTest.Core
 {
@@ -11,7 +12,9 @@ namespace DevFreela.UnitTest.Core
         public void ProjectIsCreated_Start_Sucess()
         {
             // Arrange Instanciando um novo project
-            var project = new Project("Title proj", "Description", 1 , 2 , 10000);
+            //var project = new Project("Title proj", "Description", 1 , 2 , 10000);
+
+            var project = FakeDataHelper.CreateFakeProject();
 
             //Act (Ação)START
             project.Start();
@@ -32,7 +35,10 @@ namespace DevFreela.UnitTest.Core
         public void ProjectInInvalidState_Start_ThrowsException()
         {
             // Arrange Instanciando um novo project
-            var project = new Project("Title proj", "Description", 1, 2, 10000);
+            //var project = new Project("Title proj", "Description", 1, 2, 10000);
+
+            var project = FakeDataHelper.CreateFakeProject();
+
             project.Start();
 
             //Act + Assert
@@ -47,7 +53,10 @@ namespace DevFreela.UnitTest.Core
         public void ProjectInProgress_Complete_Sucess()
         {
             // Arrange Instanciando um novo project
-            var project = new Project("Title proj", "Description", 1, 2, 10000);
+            //var project = new Project("Title proj", "Description", 1, 2, 10000);
+
+            var project = FakeDataHelper.CreateFakeProject();
+
             project.Start();
 
             //Act (Ação)
@@ -61,7 +70,9 @@ namespace DevFreela.UnitTest.Core
         [Fact]
         public void ProjectInProgress_SetIsPaymentPending_Sucess()
         {
-            var project = new Project("Title proj", "Description", 1, 2, 10000);
+            //var project = new Project("Title proj", "Description", 1, 2, 10000);
+            var project = FakeDataHelper.CreateFakeProject();
+
             project.Start();
 
             project.SetPaymentPending();
@@ -72,7 +83,8 @@ namespace DevFreela.UnitTest.Core
         [Fact]
         public void RequestProjectUpdate_Update_Sucess()
         {
-            var project = new Project("Title proj", "Description", 1, 2, 10000);
+            //var project = new Project("Title proj", "Description", 1, 2, 10000);
+            var project = FakeDataHelper.CreateFakeProject();
 
             project.Update("Title teste", "Description teste", 20000);
 
