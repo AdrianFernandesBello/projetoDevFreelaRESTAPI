@@ -5,7 +5,7 @@ using MediatR;
 
 namespace DevFreela.Application.Command.LoginUser
 {
-    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserViewModel>
+    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginViewModel>
     {
         private readonly IAuthService _authService;
         private readonly IUserRepository _repository;
@@ -15,7 +15,7 @@ namespace DevFreela.Application.Command.LoginUser
             _repository = repository;
         }
 
-        public async Task<LoginUserViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<LoginViewModel> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var passworHash = _authService.ComputeSha256Has(request.Password);
 
@@ -28,7 +28,7 @@ namespace DevFreela.Application.Command.LoginUser
 
             var token = _authService.GenerateJwtToken(user.Email, user.Role);
 
-            return new LoginUserViewModel(user.Email, token);
+            return new LoginViewModel(token);
         }
     }
 }

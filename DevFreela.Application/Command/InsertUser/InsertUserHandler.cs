@@ -20,7 +20,7 @@ namespace DevFreela.Application.Command.InsertUser
         {
             var passawordHas = _authService.ComputeSha256Has(request.Password);
 
-            var user = new User(request.FullName, request.Email, request.BirthDate, request.Password, request.Role);
+            var user = new User(request.FullName, request.Email, request.BirthDate, passawordHas, request.Role);
 
             return ResultViewModel.Sucess();
         }

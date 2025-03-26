@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DevFreela.Application.Command.LoginUser
 {
-    public class LoginUserCommand : IRequest<LoginUserViewModel>
+    public class LoginUserCommand : IRequest<LoginViewModel>
     {
         public string Email { get; set; }
         public string  Password { get; set; }
